@@ -87,3 +87,4 @@ causa: l'immagine era stata creata solo sulla VM master, i nodi non condividono 
 
 
 
+

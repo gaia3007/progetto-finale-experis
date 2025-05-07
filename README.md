@@ -60,6 +60,9 @@ Il token è stato salvato in questo percorso: ```/var/lib/rancher/k3s/server/nod
 Dopodichè sono entrata nella seconda VM per unirla al cluster (usando il token) con questo comando: curl -sfL https://get.k3s.io | K3S_URL=https://10.0.1.4:6443 K3S_TOKEN=<token_copiato> sh -
 usando l'IP privato.
 
+![image](https://github.com/user-attachments/assets/186d0d7d-abd6-4d49-94be-ca1c58068434)
+
+
 ## Creazione di un'app Node.js containerizzata
 Ho creato un'applicazione web con Node.js ed Express. I file principali sono app.js e package.json (contenuti presenti nella lista file)
 e poi ho installato Express con: npm install
@@ -78,7 +81,24 @@ la VM restituisce hello, world! così come dichiarato nel file app.js
 
 ### Errori riscontrati 
 ImagePullBackoff nel pod
-causa: l'immagine era stata creata solo sulla VM master, i nodi non condividono automaticamente le immagini tra loro
+causa: l'immagine era stata creata solo sulla VM master, perchè i nodi non condividono automaticamente le immagini tra loro.
+soluzione: ho preso la mia immagine locale e l'ho salvata in .tar
+docker save hello-docker:latest -o hello-docker.tar
+poi, ho copiato il file .tar sulla VM worker e ho usato scp per spostarlo usando anche l'IP privato
+scp hello-docker.tar darienzogaia@10.0.1.4:/home/darienzogaia/
+Infine ho importato l'immagine sulla VM worker eseguendo:
+sudo k3s ctr images import hello-docker.tar
+
+![image](https://github.com/user-attachments/assets/e8f8b569-dc32-4b26-83d8-6fd1be91f482)
+
+Ora anche il nodo worker conosce l'immagine hello-docker:latest, quindi puù avviare il pod correttamente
+
+![image](https://github.com/user-attachments/assets/609f5f78-e57e-42f8-882a-64ee6d7ac8dc)
+
+
+
+
+
 
 
 

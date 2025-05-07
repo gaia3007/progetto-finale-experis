@@ -20,3 +20,6 @@ autenticazione tramite username e password
 30080 --> porta Nodeport per esporre l'app in K8s 
 
 ![image](https://github.com/user-attachments/assets/81893a37-2a5c-45c5-881a-5b541c775fae)
+il risultato atteso è il seguente.
+#Errori principali riscontrati 
+Terraform non riusciva a creare le VM 

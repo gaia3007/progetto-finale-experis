@@ -41,3 +41,16 @@ Poi mi sono spostata sulla prima VM (master) per installare il nodo principale d
 curl -sfL https://get.k3s.io | sh -
 Questo comando ha avviato il server K3s e kubectl
 
+In questo modo ho anche generato un node-token, ossia una stringa segreta fornita automaticamente da K3s sulla VM master 
+che serve ad autenticare i nodi worker che vogliono entrare nel cluster ed evitare che i nodi non autorizzati si uniscano.
+
+Il token è stato salvato in questo percorso: /var/lib/rancher/k3s/server/node-token
+Dopodichè sono entrata nella seconda VM per unirla al cluster (usando il token) con questo comando: curl -sfL https://get.k3s.io | K3S_URL=https://10.0.1.4:6443 K3S_TOKEN=<token_copiato> sh -
+usando l'IP privato.
+
+# Creazione di un'app Node.js containerizzata
+Ho creato un'applicazione web con Node.js ed Express. I file principali sono
+
+
+
+

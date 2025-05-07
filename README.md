@@ -44,9 +44,9 @@ Adesso l'infrastruttura è pronta per installare e testare Docker, cluster k3S (
 
 ## Installazione manuale di Docker e K3s
 ho installato docker su entrambe le vm usando questo comando:
-```curl -fsSL https://get.docker.com | sh
+curl -fsSL https://get.docker.com | sh
 sudo usermod -aG docker $USER
-newgrp docker```
+newgrp docker
 Docker ci serve per buildare, esportare e gestire le immagini Docker dall'app 
 
 Poi mi sono spostata sulla prima VM (master) per installare il nodo principale del cluster
@@ -60,8 +60,29 @@ Il token è stato salvato in questo percorso: ```/var/lib/rancher/k3s/server/nod
 Dopodichè sono entrata nella seconda VM per unirla al cluster (usando il token) con questo comando: curl -sfL https://get.k3s.io | K3S_URL=https://10.0.1.4:6443 K3S_TOKEN=<token_copiato> sh -
 usando l'IP privato.
 
-# Creazione di un'app Node.js containerizzata
-Ho creato un'applicazione web con Node.js ed Express. I file principali sono
+## Creazione di un'app Node.js containerizzata
+Ho creato un'applicazione web con Node.js ed Express. I file principali sono app.js e package.json (contenuti presenti nella lista file)
+e poi ho installato Express con: npm install
+
+### Creazione del Dockerfile
+per containerizzare l'app, ho creato un dockerfile (contenuto presente nella lista file) 
+questo script dice a docker di usare node.js, copiare e installare le dipendenze, esporre la porta 3000 e avviare l'app con npm start.
+
+ho costruito l'immagine con: docker build -t hello-docker .
+E per completezza di test ho voluto lanciare un container per verificarne l'efficacia con: docker run -d -p 3000:3000 hello-docker
+
+![image](https://github.com/user-attachments/assets/deaa1cd0-e281-4a46-bde2-49bd38768e06)
+
+e da come si può notare, usando poi il comando curl http://localhost:3000/
+la VM restituisce hello, world! così come dichiarato nel file app.js
+
+### Errori riscontrati 
+ImagePullBackoff nel pod
+causa: l'immagine era stata creata solo sulla VM master, i nodi non condividono automaticamente le immagini tra loro
+
+
+
+
 
 
 

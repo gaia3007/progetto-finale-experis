@@ -79,21 +79,53 @@ E per completezza di test ho voluto lanciare un container per verificarne l'effi
 e da come si può notare, usando poi il comando curl http://localhost:3000/
 la VM restituisce hello, world! così come dichiarato nel file app.js
 
+## Deployment su K3s
+Ho iniziando creando un deployment.yaml (contenuto presente nella lista dei file) che contiene le istruzioni per
+k3s per creare e gestire i pod dell'app. 
+E' importante specificare che nello script ho indicato la replica a 3 per garantire un'alta disponibilità, così se uno
+dovesse bloccarsi, ne verrebbe subito creato uno nuovo.
+Ho continuato creando un file service.yaml (contenuto presente nella lista file) che esponde i pod verso l'esterno tramite
+una risorsa di tipo Nodeport, la quale consente di accedere all'applicazione da fuori il cluster, attraverso l'ip pubblico della 
+VM master su una porta generata casualmente, nel mio caso è stata la 30080. 
+
+![image](https://github.com/user-attachments/assets/a66a44ea-d6c2-4892-b558-c505163a38d9)
+
+Poi ho eseguito questi comandi: kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+kubectl apply dice a k3s di creare e aggiornare le risorse specificate nei file YAML.
+
 ### Errori riscontrati 
-ImagePullBackoff nel pod
+Inizialmente, avendo sempre usato sempre kubernetes, ho inserito un service di tipo load balancer, scoprendo
+poi dopo che k3s non riesce a supportarlo da solo. Quindi l'ho modificato in Nodeport e ho potuto ottenere una 
+porta alta ed esporla manualmente via IP pubblico in HTTP, in quanto non ha bisogno di componenti esterni e funziona sia in
+ambienti cloud che su VM locali.
+Nello screenshot sottostante mostro nel dettaglio le regole di sicurezza di ingresso che ho impostato prima di eseguire i test
+
+![image](https://github.com/user-attachments/assets/de7b190e-e3a9-4bc4-8e74-0e03c629b866)
+
+
+
+
+### ImagePullBackoff nel pod
 causa: l'immagine era stata creata solo sulla VM master, perchè i nodi non condividono automaticamente le immagini tra loro.
 soluzione: ho preso la mia immagine locale e l'ho salvata in .tar
 docker save hello-docker:latest -o hello-docker.tar
 poi, ho copiato il file .tar sulla VM worker e ho usato scp per spostarlo usando anche l'IP privato
 scp hello-docker.tar darienzogaia@10.0.1.4:/home/darienzogaia/
-Infine ho importato l'immagine sulla VM worker eseguendo:
+
+Infine ho importato l'immagine sempre sulla VM worker eseguendo:
 sudo k3s ctr images import hello-docker.tar
 
-![image](https://github.com/user-attachments/assets/e8f8b569-dc32-4b26-83d8-6fd1be91f482)
+![e8f8b569-dc32-4b26-83d8-6fd1be91f482](https://github.com/user-attachments/assets/7eb28f08-600b-47cd-8ed6-7d6db4614f98)
 
-Ora anche il nodo worker conosce l'immagine hello-docker:latest, quindi puù avviare il pod correttamente
+Il risultato è che ora anche il nodo worker conosce l'immagine hello-docker:latest, quindi può avviare il pod correttamente
+che risulterà regolarmente in stato running come dimostrato nello screenshot sottostante.
 
-![image](https://github.com/user-attachments/assets/609f5f78-e57e-42f8-882a-64ee6d7ac8dc)
+![609f5f78-e57e-42f8-882a-64ee6d7ac8dc](https://github.com/user-attachments/assets/6e192821-4e45-4db4-96e4-7087c5915a65)
+
+Come volevasi dimostrare, il meccanismo "scheduling" è stato attuato correttamente per bilanciare il carico tra i nodi disponibili in modo efficiente.
+
+Concludo il mio progetto 
 
 
 

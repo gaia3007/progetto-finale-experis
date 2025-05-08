@@ -4,7 +4,7 @@ Per affrontare questo progetto abbiamo bisogno dell'estensione Terraform in Visu
 ### Con az login impostiamo il nostro account con la sottoscrizione
 ```az login```
 
-```az account set --subscription "20942a39-e96c-4873-90b7-2c3f63481183"```
+```az account set --subscription "xxx"```
 
 ### Provisioning dell'infrastruttura con Terraform
 Ho creato uno script Terraform suddiviso in più file (main.tf, variables.tf, output.tf) per creare su azure le seguenti risorse:

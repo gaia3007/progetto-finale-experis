@@ -146,11 +146,16 @@ Come volevasi dimostrare, il meccanismo "scheduling" è stato attuato correttame
 
 L'obiettivo finale del mio progetto era quello di realizzare un'infrastruttura completa e funzionante che integra provisioning cloud,
 containerizzazione, orchestrazione, gestione del codice, seguendo le migliori pratiche DevOps.
-```Nello screenshot sottostante mostroche a progetto concluso, inserendo l'IP pubblico della VM master,
+```Nello screenshot sottostante mostro che a progetto concluso, inserendo l'IP pubblico della VM master,
 e usando il protocollo HTTP e la porta 30080 assegnatami, avrò questo risultato:
 ```
 
 ![image](https://github.com/user-attachments/assets/02daee58-1d1d-4c5c-9e8e-ad33d81056b2)
+
+
+# Parte 2 del progetto con file SH
+La seconda parte del progetto prevede 
+
 
 
 

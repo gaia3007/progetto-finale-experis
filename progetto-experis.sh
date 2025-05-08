@@ -42,7 +42,7 @@ echo " 10. TEST DELL'APPLICAZIONE"
 echo "Una volta controllato lo stato dei pod entrare nell'app usando l'IP pubblico:"
 echo " http://20.160.162.77:30081"
 
-echo " ✅ OPERAZIONE COMPLETATA! L'app è disponibile in locale su porta 30081 e restituisce: Hello, World!
+echo " OPERAZIONE COMPLETATA! L'app è disponibile in locale su porta 30081 e restituisce: Hello, World!
 
 
 

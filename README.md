@@ -155,7 +155,7 @@ e usando il protocollo HTTP e la porta 30080 assegnatami, avrò questo risultato
 
 # Parte 2 del progetto con file SH
 La seconda parte del progetto prevede la creazione di un file SH, nel mio caso l'ho chiamato progetto-experis.sh (contenuto presente in lista file)
-e l'ho creato nella VM master per evitare di creare altre di inizzializzare un progetto da 0 e rischiare che la sottoiscrizione gratuita non lo permettesse.
+e l'ho creato nella VM master per evitare di crearne altre e di inizzializzare un progetto da 0 e rischiare che la sottoiscrizione gratuita non lo permettesse.
 
 Lo scopo è quello di ripercorrere step by step tutti i comandi che hanno portato alla riuscita del progetto principale e di ordinarli e testarli nuovamente.
 
